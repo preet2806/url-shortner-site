@@ -469,6 +469,12 @@ i{
         height: 400px;
         width: auto;
     }
+    #inputDiv{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        justify-items: center;
+    }
     #inputLink{
         display: grid;
         grid-template-rows: 60px 60px auto;
@@ -476,9 +482,10 @@ i{
     }
     #inputDiv input{
         font-size: 20px;
-        margin-left: 5%;
-        padding-right: 20%;
-        
+        align-self: center;
+        justify-self: center;
+        margin: 0% 0%;
+        padding: 1% 2%;
     }
     #scroll{
         height: 60px;
@@ -486,8 +493,7 @@ i{
         background-color:inherit;
     }
     #inputDiv button{
-        margin-left: 34%;
-        margin-top: 5%;
+        margin: 0% 20%;
         font-size: 20px;
 
     } 
@@ -520,7 +526,7 @@ i{
         grid-column-gap: 0px;
     }
     #statistics h3{
-        grid-column:2/3;
+        grid-column:1/4;
         grid-row: 1/2;
         font-size: 35px;
         text-align: center;

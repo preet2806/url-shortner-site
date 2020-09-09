@@ -1,5 +1,12 @@
 var linklist=JSON.parse(localStorage.getItem("allurl"));
 window.onload = () => {
+    var nav=window.innerWidth;
+    console.log(nav);
+    if(nav<600)
+    {
+        document.getElementById("navbar").innerHTML='<div id="leftnav"><div class="dropdown"><button id="dropbutton" onclick="addnav()"><i class="fas fa-bars"></i></button></div><h4>goodShort</h4></div><div id="rightnav"><button id="login">Login</button><button id="signup">Signup</button></div>';
+        
+    }
     if(linklist==null){
         linklist={list:[]};
         console.log("null");
@@ -73,7 +80,9 @@ const shorten = () =>
         
         
 }
-
+const addnav = () => {
+    document.getElementById("dropdown").innerHTML='<div id="dropdowncontent"><a>Features</a> <a>Pricing</a> <a>Resources</a></div>';
+}
 const getStarted = () => {
     console.log("working");
     var elemt=document.getElementById("scroll");

@@ -81,10 +81,13 @@ const shorten = () =>
         
 }
 const addnav = () => {
+
     document.getElementById("dropdown").innerHTML='<div id="dropdowncontent"><a>Features</a> <a>Pricing</a> <a>Resources</a></div>';
+    document.getElementById("navbar").innerHTML='<div id="leftnav"><div class="dropdown"><button id="dropbutton" onclick="removenav()"><i class="fas fa-bars"></i></button></div><h4>goodShort</h4></div><div id="rightnav"><button id="login">Login</button><button id="signup">Signup</button></div>';
 }
 const removenav = () => {
     document.getElementById("dropdown").innerHTML='';
+    document.getElementById("navbar").innerHTML='<div id="leftnav"><div class="dropdown"><button id="dropbutton" onclick="addnav()"><i class="fas fa-bars"></i></button></div><h4>goodShort</h4></div><div id="rightnav"><button id="login">Login</button><button id="signup">Signup</button></div>';
 }
 const getStarted = () => {
     console.log("working");

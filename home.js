@@ -83,6 +83,9 @@ const shorten = () =>
 const addnav = () => {
     document.getElementById("dropdown").innerHTML='<div id="dropdowncontent"><a>Features</a> <a>Pricing</a> <a>Resources</a></div>';
 }
+const removenav = () => {
+    document.getElementById("dropdown").innerHTML='';
+}
 const getStarted = () => {
     console.log("working");
     var elemt=document.getElementById("scroll");

@@ -7,10 +7,31 @@ window.onload = () => {
     else{
         for (var i = 0; i < linklist.list.length; i++)
         {
-            console.log("s");
-
-            htmlString ='<div class="outputlink"><div class="input"><h6></h6></div><div class="output"><h6 id="result">'+linklist.list[i]+'</h6><button class="copy" id="'+i+'" onclick="copyto('+i+')">copy</button></div></div>';
-            document.getElementById("outputDiv").innerHTML+=(htmlString);
+            console.log(linklist);
+            //get data
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "https://rel.ink/api/links/"+linklist.list[i]); //shortened link
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.send();
+            var data={};
+            xhr.onload=function()
+            {
+              if(this.status==200)
+              {
+                data=JSON.parse(this.responseText)
+                console.log(data);
+                htmlString ='<div class="outputlink"><div class="input"><h6>'+data.url+'</h6></div><div class="output"><h6 id="result">"https://rel.ink/"'+data.hashid+'</h6><button class="copy" id="'+i+'" onclick="copyto('+i+')">copy</button></div></div>';
+                document.getElementById("outputDiv").innerHTML+=(htmlString);
+                
+              }
+              else
+              {
+                data=JSON.parse(this.responseText)
+                
+              }
+            }
+            //get data
+            
         }
     }
 }
@@ -34,30 +55,15 @@ const shorten = () =>
                     console.log("https://rel.ink/"+newData.hashid)
                     
                     console.log(linklist);
-                    linklist.list.push("https://rel.ink/"+newData.hashid);
+                    linklist.list.push(newData.hashid);
                     var j=linklist.list.indexOf("https://rel.ink/"+newData.hashid);
-                    htmlString ='<div class="outputlink"><div class="input"><h6></h6></div><div class="output"><h6 id="result">https://rel.ink/'+newData.hashid+'</h6><button class="copy" id="'+j+'" onclick="copyto('+j+')">copy</button></div></div>'
+                    htmlString ='<div class="outputlink"><div class="input"><h6>'+data.url+'</h6></div><div class="output"><h6 id="result">https://rel.ink/'+newData.hashid+'</h6><button class="copy" id="'+j+'" onclick="copyto('+j+')">copy</button></div></div>'
                     outputDiv.innerHTML+=htmlString;
                     localStorage.setItem("allurl",JSON.stringify(linklist))
-                    //get data
-                    var xhr = new XMLHttpRequest();
-                    xhr.open("GET", "https://rel.ink/api/links/"+newData.hashid); //shortened link
-                    xhr.setRequestHeader('Content-Type', 'application/json');
-                    xhr.send();
-                    xhr.onload=function()
-                    {
-                      if(this.status==200)
-                      {
-                        var data=JSON.parse(this.responseText)
-                        
-                      }
-                      else
-                      {
-                        var data=JSON.parse(this.responseText)
-                        
-                      }
-                    }
-                    //get data
+                    
+              }
+              else{
+                  alert("invalid link");
               }
           }
         });

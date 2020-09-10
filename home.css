@@ -501,6 +501,7 @@ i{
         margin-top: 5%;
         height: 120px;
         display: grid;
+        justify-content: center;
         grid-template-rows: 50px 50px;
 
     }
@@ -512,13 +513,17 @@ i{
     .output{
         grid-row: 2/3;
         align-self: center;
+        justify-self: center;
         margin-top: 5%;
     }
     .outputlink .output button{
         height: 35px;
         align-self: center;
     }
-    
+    .input h6{
+        font-size: 15px;
+        justify-self: center;
+    }
     #statistics{
         display: grid;
         grid-template-rows: 40px 90px 30px repeat(3,200px 50px);

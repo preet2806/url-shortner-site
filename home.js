@@ -15,6 +15,7 @@ window.onload = () => {
         for (var i = 0; i < linklist.list.length; i++)
         {
             console.log(linklist);
+            console.log(i);
             //get data
             var xhr = new XMLHttpRequest();
             xhr.open("GET", "https://rel.ink/api/links/"+linklist.list[i]); //shortened link
@@ -27,7 +28,9 @@ window.onload = () => {
               {
                 data=JSON.parse(this.responseText)
                 console.log(data);
-                htmlString ='<div class="outputlink"><div class="input"><h6>'+data.url+'</h6></div><div class="output"><h6 id="result">"https://rel.ink/"'+data.hashid+'</h6><button class="copy" id="'+i+'" onclick="copyto('+i+')">copy</button></div></div>';
+                var count=data.hashid;
+                console.log(count);
+                htmlString ='<div class="outputlink"><div class="input"><h6>'+data.url+'</h6></div><div class="output"><h6 id="result">"https://rel.ink/"'+data.hashid+'</h6><button class="copy" id="'+count+'" onclick="copyto('+count+')">copy</button></div></div>';
                 document.getElementById("outputDiv").innerHTML+=(htmlString);
                 
               }
@@ -63,8 +66,9 @@ const shorten = () =>
                     
                     console.log(linklist);
                     linklist.list.push(newData.hashid);
-                    var j=linklist.list.indexOf("https://rel.ink/"+newData.hashid);
-                    htmlString ='<div class="outputlink"><div class="input"><h6>'+data.url+'</h6></div><div class="output"><h6 id="result">https://rel.ink/'+newData.hashid+'</h6><button class="copy" id="'+j+'" onclick="copyto('+j+')">copy</button></div></div>'
+                    var j=linklist.list.length;
+                    var count=newData.hashid;
+                    htmlString ='<div class="outputlink"><div class="input"><h6>'+data.url+'</h6></div><div class="output"><h6 id="result">https://rel.ink/'+newData.hashid+'</h6><button class="copy" id="'+count+'" onclick="copyto('+count+')">copy</button></div></div>'
                     outputDiv.innerHTML+=htmlString;
                     localStorage.setItem("allurl",JSON.stringify(linklist))
                     
@@ -106,9 +110,9 @@ const thumbsdown = () => {
     document.getElementById("hiddenrect").style.opacity="1";
 }
 const copyto = (n) => {
-    
+    console.log(n);
     //Before we copy, we are going to select the text.
-    var text = document.getElementById(n).previousSibling;
+    var text = (n).previousSibling;
     var selection = window.getSelection();
     var range = document.createRange();
     range.selectNodeContents(text);
@@ -116,8 +120,8 @@ const copyto = (n) => {
     selection.addRange(range);
     //add to clipboard.
     document.execCommand('copy');
-    document.getElementById(n).innerHTML="copied!";
-    document.getElementById(n).style.backgroundColor="#1a2e35";
+    (n).innerHTML="copied!";
+    (n).style.backgroundColor="#1a2e35";
     alert("copied link: "+text.innerHTML)
-    
+    console.log(n);
 }

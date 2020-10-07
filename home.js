@@ -103,13 +103,12 @@ const addnav = () => {
         if (tOpac == 150) {
             clearInterval(id3);
         } else {
-            console.log(document.getElementById("dropdown").style.height);
             tOpac=tOpac+3;
             document.getElementById("dropdown").style.height = tOpac+'px';
 
         }
     }
-    document.getElementById("navbar").innerHTML='<div id="leftnav"><button id="dropbutton" onclick="removenav()"><i class="fas fa-bars"></i></button><h4>goodShort</h4></div><div id="rightnav"><button id="login">Login</button><button id="signup">Signup</button></div>';
+    document.getElementById("navbar").innerHTML='<div id="leftnav"><button id="dropbutton" onclick="removenav()"><i class="fas fa-times"></i></button><h4>goodShort</h4></div><div id="rightnav"><button id="login">Login</button><button id="signup">Signup</button></div>';
 }
 const removenav = () => {
     document.getElementById("dropdown").innerHTML='';
@@ -119,7 +118,6 @@ const removenav = () => {
         if (tOpac == 0) {
             clearInterval(id3);
         } else {
-            console.log(document.getElementById("dropdown").style.height);
             tOpac=tOpac-3;
             document.getElementById("dropdown").style.height = tOpac+'px';
 

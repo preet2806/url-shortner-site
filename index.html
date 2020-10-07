@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
   <link rel="stylesheet" type="text/css" href="home.css" media="screen"/>
-
-  <script src="home.css"></script>
   <script src="home.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
@@ -20,17 +18,15 @@
 </head>
 <nav id="navbar">
   <div id="leftnav">
-    <h4>goodShort</h4> <a>Features</a> <a>Pricing</a> <a>Resources</a>
+    <h4>goodShort</h4> <a href="#infoDiv">Home</a> <a href="#scroll">Links</a> <a href="#statistics">Statistics</a>
    </div> 
    <div id="rightnav">
      <button id="login">Login</button><button id="signup">Signup</button>
    </div>
 </nav>
+<div id="dropdown"></div>
 <body>
   <div id="infoDiv">
-    <div id="dropdown">
-
-    </div>
     <h1>More than just shorter links</h1>
 
     <p>Build your brand’s recognition and get detailed insights 
@@ -49,11 +45,11 @@
   <div id="scroll"></div>
   <div id="inputLink">
     <div id="inputDiv">
-      <input type="text" id="userlink" placeholder="shorten a link here">
+      <input type="search" id="userlink" placeholder="shorten a link here">
       <button id="shorten" onclick="shorten()"> Shorten It!</button>
     </div>
     <div id="outputDiv">
-      
+      <div id="loader"></div>
     </div>
   </div>
   

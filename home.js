@@ -4,14 +4,14 @@ window.onload = () => {
     console.log(nav);
     if(nav<600)
     {
-        document.getElementById("navbar").innerHTML='<div id="leftnav"><div class="dropdown"><button id="dropbutton" onclick="addnav()"><i class="fas fa-bars"></i></button></div><h4>goodShort</h4></div><div id="rightnav"><button id="login">Login</button><button id="signup">Signup</button></div>';
-        
+        document.getElementById("navbar").innerHTML='<div id="leftnav"><button id="dropbutton" onclick="addnav()"><i class="fas fa-bars"></i></button><h4>goodShort</h4></div><div id="rightnav"><button id="login">Login</button><button id="signup">Signup</button></div>';
     }
     if(linklist==null){
         linklist={list:[]};
         console.log("null");
     }
     else{
+        document.getElementById("loader").style.display="inherit";
         for (var i = 0; i < linklist.list.length; i++)
         {
             console.log(linklist);
@@ -29,8 +29,8 @@ window.onload = () => {
                 data=JSON.parse(this.responseText)
                 console.log(data);
                 var count=data.hashid;
-                console.log(count);
-                htmlString ='<div class="outputlink"><div class="input"><h6>'+data.url+'</h6></div><div class="output"><h6 id="result">"https://rel.ink/"'+data.hashid+'</h6><button class="copy" id="'+count+'" onclick="copyto('+count+')">copy</button></div></div>';
+                console.log(data.url);
+                htmlString ='<div class="outputlink"><div class="input"><h6>'+data.url+'</h6></div><div class="output"><h6 id="result">https://rel.ink/'+data.hashid+'</h6><button class="copy" id="link'+count+'" onclick="copyto(link'+count+')">copy</button></div></div>';
                 document.getElementById("outputDiv").innerHTML+=(htmlString);
                 
               }
@@ -43,6 +43,7 @@ window.onload = () => {
             //get data
             
         }
+        document.getElementById("loader").style.display="none";
     }
 }
 
@@ -51,7 +52,9 @@ const shorten = () =>
     var data = {
         "url":document.getElementById("userlink").value
     };
+    if(data.url.includes("https://rel.ink/")==false){
      console.log(data.url) 
+     document.getElementById("loader").style.display="inherit";
         var xhr = new XMLHttpRequest();
         xhr.addEventListener("readystatechange", function() 
         {
@@ -64,14 +67,19 @@ const shorten = () =>
 
                     console.log("https://rel.ink/"+newData.hashid)
                     
-                    console.log(linklist);
-                    linklist.list.push(newData.hashid);
-                    var j=linklist.list.length;
-                    var count=newData.hashid;
-                    htmlString ='<div class="outputlink"><div class="input"><h6>'+data.url+'</h6></div><div class="output"><h6 id="result">https://rel.ink/'+newData.hashid+'</h6><button class="copy" id="'+count+'" onclick="copyto('+count+')">copy</button></div></div>'
-                    outputDiv.innerHTML+=htmlString;
-                    localStorage.setItem("allurl",JSON.stringify(linklist))
-                    
+                    console.log(linklist.list.includes(newData.hashid));
+                    if(linklist.list.includes(newData.hashid)==false){
+                        linklist.list.push(newData.hashid);
+                        var j=linklist.list.length;
+                        var count=newData.hashid;
+                        htmlString ='<div class="outputlink"><div class="input"><h6>'+data.url+'</h6></div><div class="output"><h6 id="result">https://rel.ink/'+newData.hashid+'</h6><button class="copy" id="link'+count+'" onclick="copyto(link'+count+')">copy</button></div></div>'
+                        outputDiv.innerHTML+=htmlString;
+                        localStorage.setItem("allurl",JSON.stringify(linklist))   
+                    }
+                    else{
+                        alert("this link has already been shortened");
+                    }
+                    document.getElementById("loader").style.display="none";
               }
               else{
                   alert("invalid link");
@@ -81,17 +89,43 @@ const shorten = () =>
         xhr.open("POST", "https://rel.ink/api/links/");
         xhr.setRequestHeader('Content-Type', 'application/json');
         xhr.send(JSON.stringify(data));
-        
+    }
+    else{
+        alert("this link has already been shortened");
+    }   
         
 }
 const addnav = () => {
+    document.getElementById("dropdown").innerHTML='<div id="content"><a href="#infoDiv" onclick="removenav()">Home</a><a href="#scroll"  onclick="removenav()">Links</a><a href="#statistics" onclick="removenav()">Statistics</a></div>';
+    var tOpac=0;
+    var id3=setInterval(frame3,0.03)
+    function frame3() {
+        if (tOpac == 150) {
+            clearInterval(id3);
+        } else {
+            console.log(document.getElementById("dropdown").style.height);
+            tOpac=tOpac+3;
+            document.getElementById("dropdown").style.height = tOpac+'px';
 
-    document.getElementById("dropdown").innerHTML='<div id="dropdowncontent"><a>Features</a> <a>Pricing</a> <a>Resources</a></div>';
-    document.getElementById("navbar").innerHTML='<div id="leftnav"><div class="dropdown"><button id="dropbutton" onclick="removenav()"><i class="fas fa-bars"></i></button></div><h4>goodShort</h4></div><div id="rightnav"><button id="login">Login</button><button id="signup">Signup</button></div>';
+        }
+    }
+    document.getElementById("navbar").innerHTML='<div id="leftnav"><button id="dropbutton" onclick="removenav()"><i class="fas fa-bars"></i></button><h4>goodShort</h4></div><div id="rightnav"><button id="login">Login</button><button id="signup">Signup</button></div>';
 }
 const removenav = () => {
     document.getElementById("dropdown").innerHTML='';
-    document.getElementById("navbar").innerHTML='<div id="leftnav"><div class="dropdown"><button id="dropbutton" onclick="addnav()"><i class="fas fa-bars"></i></button></div><h4>goodShort</h4></div><div id="rightnav"><button id="login">Login</button><button id="signup">Signup</button></div>';
+    var tOpac=150;
+    var id3=setInterval(frame3,0.01)
+    function frame3() {
+        if (tOpac == 0) {
+            clearInterval(id3);
+        } else {
+            console.log(document.getElementById("dropdown").style.height);
+            tOpac=tOpac-3;
+            document.getElementById("dropdown").style.height = tOpac+'px';
+
+        }
+    }
+    document.getElementById("navbar").innerHTML='<div id="leftnav"><button id="dropbutton" onclick="addnav()"><i class="fas fa-bars"></i></button><h4>goodShort</h4></div><div id="rightnav"><button id="login">Login</button><button id="signup">Signup</button></div>';
 }
 const getStarted = () => {
     console.log("working");
@@ -101,13 +135,13 @@ const getStarted = () => {
 };
 const thumbsup = () => {
     document.getElementById("hiddencircle").style.opacity="0";
-    document.getElementById("hiddenrect").style.opacity="0";
+    document.getElementById("hiddenrect").style.animationPlayState="running";
     
     
 }
 const thumbsdown = () => {
     document.getElementById("hiddencircle").style.opacity="1";
-    document.getElementById("hiddenrect").style.opacity="1";
+    document.getElementById("hiddenrect").style.animationPlayState="paused";
 }
 const copyto = (n) => {
     console.log(n);

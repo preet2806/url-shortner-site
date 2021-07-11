@@ -18,7 +18,7 @@ window.onload = () => {
             console.log(i);
             //get data
             var xhr = new XMLHttpRequest();
-            xhr.open("GET", "https://rel.ink/api/links/"+linklist.list[i]); //shortened link
+            xhr.open("GET", "https://api.shrtco.de/v2/info?code="+linklist.list[i]); //shortened link
             xhr.setRequestHeader('Content-Type', 'application/json');
             xhr.send();
             var data={};
@@ -28,9 +28,9 @@ window.onload = () => {
               {
                 data=JSON.parse(this.responseText)
                 console.log(data);
-                var count=data.hashid;
-                console.log(data.url);
-                htmlString ='<div class="outputlink"><div class="input"><h6>'+data.url+'</h6></div><div class="output"><h6 id="result">https://rel.ink/'+data.hashid+'</h6><button class="copy" id="link'+count+'" onclick="copyto(link'+count+')">copy</button></div></div>';
+                var count=data.result.code;
+                console.log(data.result.url);
+                htmlString ='<div class="outputlink"><div class="input"><h6>'+data.result.url+'</h6></div><div class="output"><h6 id="result">shrtco.de/'+data.result.code+'</h6><button class="copy" id="link'+count+'" onclick="copyto(link'+count+')">copy</button></div></div>';
                 document.getElementById("outputDiv").innerHTML+=(htmlString);
                 
               }
@@ -60,19 +60,20 @@ const shorten = () =>
         {
           if(this.readyState === 4) 
           {
+              //console.log(this.status);
               if(this.status==200 || this.status==201)
               {
         
                     let newData = JSON.parse(this.responseText)
 
-                    console.log("https://rel.ink/"+newData.hashid)
+                    console.log(newData.result)
                     
-                    console.log(linklist.list.includes(newData.hashid));
-                    if(linklist.list.includes(newData.hashid)==false){
-                        linklist.list.push(newData.hashid);
+                    console.log(linklist.list.includes(newData.result.code));
+                    if(linklist.list.includes(newData.result.code)==false){
+                        linklist.list.push(newData.result.code);
                         var j=linklist.list.length;
-                        var count=newData.hashid;
-                        htmlString ='<div class="outputlink"><div class="input"><h6>'+data.url+'</h6></div><div class="output"><h6 id="result">https://rel.ink/'+newData.hashid+'</h6><button class="copy" id="link'+count+'" onclick="copyto(link'+count+')">copy</button></div></div>'
+                        var count=newData.result.code;
+                        htmlString ='<div class="outputlink"><div class="input"><h6>'+data.url+'</h6></div><div class="output"><h6 id="result">'+newData.result.short_link+'</h6><button class="copy" id="link'+count+'" onclick="copyto(link'+count+')">copy</button></div></div>'
                         outputDiv.innerHTML+=htmlString;
                         localStorage.setItem("allurl",JSON.stringify(linklist))   
                     }
@@ -86,9 +87,9 @@ const shorten = () =>
               }
           }
         });
-        xhr.open("POST", "https://rel.ink/api/links/");
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(data));
+        xhr.open("POST", "https://api.shrtco.de/v2/shorten?url="+data.url);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.send();
     }
     else{
         alert("this link has already been shortened");
@@ -131,16 +132,6 @@ const getStarted = () => {
     elemt.scrollIntoView();
     
 };
-const thumbsup = () => {
-    document.getElementById("hiddencircle").style.opacity="0";
-    document.getElementById("hiddenrect").style.animationPlayState="running";
-    
-    
-}
-const thumbsdown = () => {
-    document.getElementById("hiddencircle").style.opacity="1";
-    document.getElementById("hiddenrect").style.animationPlayState="paused";
-}
 const copyto = (n) => {
     console.log(n);
     //Before we copy, we are going to select the text.
